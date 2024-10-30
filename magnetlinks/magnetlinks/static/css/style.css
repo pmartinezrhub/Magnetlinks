@@ -1,0 +1,104 @@
+.table-container {
+    overflow-x: auto;          
+    max-width: 100%;          
+}
+
+.title-column {
+    width: auto;                
+    word-wrap: break-word;     
+}
+
+table {
+    width: 100%;               
+    max-width: 1000px;        
+    margin: auto;             
+    border-collapse: collapse; 
+}
+
+th, td {
+    padding: 10px;            
+    border: 1px solid #ddd;   
+    text-align: left;         
+    vertical-align: top;      
+}
+
+th:nth-child(1), td:nth-child(1) {
+    width: auto;               
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: auto;
+    /*white-space: nowrap;      */
+    overflow: hidden;         
+    text-overflow: ellipsis;  
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: auto;              
+}
+
+th {
+    background-color: #f2f2f2; 
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9; 
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1; 
+}
+
+.form-group {
+    margin-bottom: 15px;      
+}
+
+label {
+    display: block;           
+    font-weight: bold;       
+    margin-bottom: 5px;      
+}
+
+.form-control {
+    width: 100%;             
+    padding: 10px;           
+    border: 1px solid #ccc;  
+    border-radius: 4px;      
+    box-sizing: border-box;  
+}
+
+input[type="submit"] {
+    background-color: #007bff; 
+    color: white;              
+    padding: 10px 15px;       
+    border: none;             
+    border-radius: 4px;      
+    cursor: pointer;         
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3; 
+}
+
+.actionbox {
+    background-color: #f9f9f9; 
+    border: 1px solid #ccc;    
+    border-radius: 5px;         
+    padding: 20px;              
+    margin: 20px auto;          
+    max-width: 600px;           
+    margin-left: 50px;         
+}
+
+h3 {
+    margin: 20px;              
+}
+
+.description-cell {
+    max-height: 400px;          
+    overflow-y: auto;           
+    word-wrap: break-word;      
+    overflow-wrap: break-word;  
+    white-space: normal;        
+    padding: 20px;              
+}

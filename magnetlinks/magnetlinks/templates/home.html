@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}  
+
+{% block content %}
+
+<div class="table-container">
+    <h3>Magnet Links</h3>
+
+    <!-- Search form -->
+    <div style="text-align: center;">
+    <form method="GET" action="{% url 'home' %}">
+        <input type="text" name="search" placeholder="Search by title..." value="{{ request.GET.search }}" style="width: 300px; padding: 5px;">
+        <button type="submit" style="padding: 5px;">Search</button>
+        
+    </form>
+    <p>
+    Al seeds and leechers are updated every 20 mins, magnets with zero seeds are hidden
+    </div>
+    
+    <br>
+    <p>
+    <table>
+        <thead>
+            <tr>
+                
+                <th>Image</th>
+                <th class="title-column">Title</th>
+                
+                <th>Magnet</th>
+                <th>File name</th>
+                <th>Added</th>
+                <th>Seeders</th>
+                <th>Leechers</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for link in magnetlinks %}
+       
+                <tr>
+                <td><img width="128px"   src=" {{ link.imagelink }}" > </td>
+                <td class="title-column"><strong>{{ link.title }}</strong></td>
+                <td>
+                    <a href="{{ link.magnetlink }}" title="Abrir enlace magnet">
+                        <img src="{% static 'imgs/magnet_icon.png' %}" alt="Magnet Link" width="40px">
+                    </a>
+                    
+                </td>
+                
+                <td>{{ link.filename }}</td>
+                <td>{{ link.date }}</td>
+                <td>{{ link.seeders }}</td>
+                <td>{{ link.leechers }}</td>
+                <td><a  href="{% url 'magnetlink_detail' link.id %}">Details</a></td>
+            </tr>
+       
+            {% empty %}
+            <tr>
+                <td colspan="4">No magnet links available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

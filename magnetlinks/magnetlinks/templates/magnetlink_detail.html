@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ link.title }}</h2>
+
+<div class="table-container">
+    
+    <table>
+        <tr>
+            <td><strong>Title:</strong></td>
+            <td>{{ link.title }}</td> 
+        </tr>
+        <tr>
+            <td><strong>Magnet Link:</strong></td>
+            <td><a href="{{ magnetlink }}">{{ magnetlink }}</a></td>  
+        </tr>
+        <tr>
+            <td><strong>File name:</strong></td>
+            <td class="description-cell">{{ link.filename }}</td>
+        </tr>
+        <tr>
+            <td><strong>Hash:</strong></td>
+            <td>{{ hashfile }}</td> 
+        </tr>
+        <tr>
+            <td><strong>Description:</strong></td>
+            <td class="description-cell">{{ link.description }}</td>
+        </tr>
+        {% if link.imagelink %}
+        <tr>
+            <td><strong>Image:</strong></td>
+            <td>
+                <p><img width="400px" src="{{ link.imagelink }}" alt="{{ link.title }}" style="max-width: 100%; height: auto;"></p>
+            </td>
+        </tr>
+        {% endif %}
+    </table>
+    <a href="{% url 'home' %}">Back</a>
+    <br><br>
+</div>
+{% endblock content %}
+
