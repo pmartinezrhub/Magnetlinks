@@ -13,21 +13,22 @@ from .utils import ensure_magnet_link
 def home(request):
     search_query = request.GET.get('search', '')
     order = request.GET.get('order', 'seeders-desc')  
-    
+
     if search_query:
         magnetlinks = MagnetLink.objects.filter(title__icontains=search_query)
     else:
         magnetlinks = MagnetLink.objects.all()
 
     if order == 'seeders-asc':
-        magnetlinks = magnetlinks.order_by('seeders')
+        magnetlinks = magnetlinks.order_by('seeders', 'leechers')  # Orden ascendente
     else:  
-        magnetlinks = magnetlinks.order_by('-seeders')
+        magnetlinks = magnetlinks.order_by('-seeders', '-leechers')  # Orden descendente
 
     for link in magnetlinks:
         link.magnetlink = ensure_magnet_link(link.magnetlink)
     
     return render(request, 'home.html', {'magnetlinks': magnetlinks, 'order': order})
+
 
 
 def sign_up(request):
