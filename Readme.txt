@@ -11,7 +11,7 @@ In short, magnet links are lighter, more convenient, and less dependent on centr
 
 What it needs to run?
 This is a Django project so it needs django-framework
-Also it uses celery for asyn tasks
+Also it uses Celery for async tasks (Bittorrent network checks)
 Database is SQLite at the moment. 
 
 Contact pmartinezr@proton.me
