@@ -15,7 +15,7 @@ def home(request):
     order = request.GET.get('order', 'seeders-desc')  
 
     if search_query:
-        magnetlinks = MagnetLink.objects.filter(title__icontains=search_query)
+        magnetlinks = MagnetLink.objects.filter(filename__icontains=search_query)
     else:
         magnetlinks = MagnetLink.objects.all()
 

@@ -6,10 +6,10 @@
 <div class="table-container">
     
     <table>
-        <tr>
+        <!--<tr>
             <td><strong>Title:</strong></td>
             <td>{{ link.title }}</td> 
-        </tr>
+        </tr>-->
         <tr>
             <td><strong>Magnet Link:</strong></td>
             <td><a href="{{ magnetlink }}">{{ magnetlink }}</a></td>  
@@ -19,12 +19,20 @@
             <td class="description-cell">{{ link.filename }}</td>
         </tr>
         <tr>
+        <td><strong>File size:</strong></td>
+            <td>{{ link.human_readable_size }}</td>
+        </tr>      
+        <tr>
             <td><strong>Hash:</strong></td>
             <td>{{ hashfile }}</td> 
         </tr>
         <tr>
             <td><strong>Description:</strong></td>
             <td class="description-cell">{{ link.description }}</td>
+        </tr>
+        <tr>
+            <td><strong>Category:</strong></td>
+            <td class="description-cell">{{ link.category }}</td>
         </tr>
         {% if link.imagelink %}
         <tr>

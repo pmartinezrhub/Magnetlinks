@@ -14,14 +14,20 @@ def update_magnetlinks():
         magnetlink = ensure_magnet_link(link.magnetlink)    
         print(magnetlink)
         try:
-            seeders, leechers, torrent_name = asyncio.run(get_seeds_leechers_and_name(magnetlink))
+            filename, seeders, leechers, total_size = asyncio.run(get_seeds_leechers_and_name(magnetlink))
+            
             if seeders or leechers:
                 link.seeders = seeders
                 link.leechers = leechers
-                link.filename = torrent_name
-                print(torrent_name)
+                if filename:
+                    link.filename = filename
+                if total_size:
+                    link.filesize = total_size
                 link.save()
-                print(f"seeders:{seeders}, leechers:{leechers}")
+                if filename and total_size:
+                    print(f"File: {filename}, seeders:{seeders}, leechers:{leechers}, Size:{total_size}")
+                else:
+                    print(f"seeders:{seeders}, leechers:{leechers}")
         except Exception as e:
             print(f"Error actualizando link {link.id}: {e}")
     # onces the stuff is done delete all files

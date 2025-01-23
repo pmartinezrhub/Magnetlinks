@@ -9,7 +9,7 @@
     <!-- Search form -->
     <div style="text-align: center;">
     <form method="GET" action="{% url 'home' %}">
-        <input type="text" name="search" placeholder="Search by title..." value="{{ request.GET.search }}" style="width: 300px; padding: 5px;">
+        <input type="text" name="search" placeholder="Search by name..." value="{{ request.GET.search }}" style="width: 300px; padding: 5px;">
         <button type="submit" style="padding: 5px;">Search</button>
         
     </form>
@@ -22,15 +22,14 @@
     <table>
         <thead>
             <tr>
-                
-                <th>Image</th>
-                <th class="title-column">Title</th>
-                
+                <th>Category</th>
+                <!--<th>Image</th>
+                <th class="title-column">Title</th>-->
                 <th>Magnet</th>
-                <th>File name</th>
+                <th>Filename</th>
                 <th>Added</th>
-                <th>Seeders</th>
-                <th>Leechers</th>
+                <th>S</th>
+                <th>L</th>
                 <th>Details</th>
             </tr>
         </thead>
@@ -38,8 +37,10 @@
             {% for link in magnetlinks %}
        
                 <tr>
-                <td><img width="128px"   src=" {{ link.imagelink }}" > </td>
-                <td class="title-column"><strong>{{ link.title }}</strong></td>
+                <td>{{ link.category }}</td>
+
+                <!--<td><img width="128px"   src=" {{ link.imagelink }}" > </td>
+                <td class="title-column"><strong>{{ link.title }}</strong></td>-->
                 <td>
                     <a href="{{ link.magnetlink }}" title="Abrir enlace magnet">
                         <img src="{% static 'imgs/magnet_icon.png' %}" alt="Magnet Link" width="40px">

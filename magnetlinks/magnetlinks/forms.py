@@ -22,25 +22,33 @@ class RegisterForm(UserCreationForm):
 class MagnetLinkForm(forms.ModelForm):
     
     captcha = CaptchaField()
-
-    class Meta:
-        model = MagnetLink
-        fields = ['title', 'magnetlink', 'description', 'imagelink']
-        widgets = {
-            'title': forms.TextInput(attrs={'size': 60}),
-            'magnetlink': forms.TextInput(attrs={'placeholder': 'magnet link or hash', 'size': 60}),
-            'description': forms.Textarea(attrs={'class': 'long-input', 'rows': 8}),
-            'imagelink': forms.URLInput(attrs={'placeholder': 'Enter image URL', 'size': 60}),
-        }
-
     MAGNET_REGEX = r"^magnet:\?xt=urn:btih:[A-Fa-f0-9]{40}(&.*)?$"
     HASH_REGEX = r"^[A-Fa-f0-9]{40}$"
+    
+    class Meta:
+        model = MagnetLink
+        fields = ['category',  'magnetlink', 'description', 'imagelink']
+        CATEGORY_CHOICES = [
+            ('movies', 'Movies'),
+            ('music', 'Music'),
+            ('ames', 'Games'),
+            ('software', 'Software'),
+        ]
 
+        widgets = {
+            #'title': forms.TextInput(attrs={'size': 60}),
+            'magnetlink': forms.TextInput(attrs={'placeholder': 'magnet link or BTIH', 'size': 60}),
+            'description': forms.Textarea(attrs={'class': 'long-input', 'rows': 8}),
+            'imagelink': forms.URLInput(attrs={'placeholder': 'Enter image URL', 'size': 60}),
+            'category': forms.Select(attrs={'class': 'dropdown', 'default': 'Files'}),
+        }
+
+    
     def clean(self):
+
         cleaned_data = super().clean()
         magnetlink = cleaned_data.get("magnetlink")
 
-        
         if not magnetlink:
             raise ValidationError("You must provide either a valid magnet link or a 40-character hexadecimal hash.")
         

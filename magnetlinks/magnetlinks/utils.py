@@ -11,21 +11,34 @@ def get_seeds_leechers_and_name(magnet_link):
     session.listen_on(6881, 6891)
 
     params = {
-        'save_path': 'metadata',  
+        'save_path': 'metadata',
     }
     handle = lt.add_magnet_uri(session, magnet_link, params)
 
+    max_attempts = 5  # Número máximo de intentos
+    attempts = 0
+
     while not handle.has_metadata():
-        print(f"Wait until torrent is loaded {magnet_link}")
-        time.sleep(5)
-    
+        if attempts >= max_attempts:
+            print(f"Max attempts reached for {magnet_link}. Metadata not found.")
+            return None, None, None  # Salida si no se encuentran metadatos
+        
+        print(f"Waiting for metadata to be downloaded for {magnet_link}... Attempt {attempts + 1}/{max_attempts}")
+        time.sleep(5)  # Espera antes de volver a verificar
+        attempts += 1
+
+    # Si llegamos aquí, se han encontrado los metadatos
     torrent_info = handle.get_torrent_info()
     torrent_name = torrent_info.name()  
     status = handle.status()
     num_seeders = status.num_seeds
     num_leechers = status.num_peers - status.num_seeds
+    total_size = torrent_info.total_size()  
+    
+    return torrent_name, num_seeders, num_leechers, total_size
 
-    return num_seeders, num_leechers, torrent_name
+
+
 
 
 def ensure_magnet_link(magnet_link):
