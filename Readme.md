@@ -16,21 +16,27 @@ Database is SQLite at the moment.
 
 How to deploy:
 
+<pre>
 cd magnetlinks
 source bin activate
 python manage runserver
+</pre>
 
 You need a redis server so in the host:
+<pre>
 apt install redis celery
-
+</pre>
 then you can launch 
+<pre>
 ./celery_worker.sh
+</pre>
 and 
+<pre>
 ./celery_beat.sh
+</pre>
 
 Docker compose:
-
+<pre>
 docker-compose up --build 
-
-
+</pre>
 Contact pmartinezr@proton.me
