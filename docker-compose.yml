@@ -3,7 +3,6 @@ services:
     build: ./magnetlinks
     volumes:
       - ./magnetlinks:/magnetlinks # persistence volume
-      #- ./magnetlinks/magnetlinksdb.sqlite3:/magnetlinks/magnetlinksdb.sqlite3 #persistence db
     ports:
       # bittorrent ports
       - "6881:6881"
@@ -43,7 +42,6 @@ services:
     #command: celery -A magnetlinks beat --loglevel=info --schedule=/var/lib/celery/celerybeat-schedule.db # moved to Dockerfile
     volumes:
       - ./magnetlinks:/magnetlinks
-      - ./celery_store:/var/lib/celery  # Create a writable directory on host
     depends_on:
       - redis
     
