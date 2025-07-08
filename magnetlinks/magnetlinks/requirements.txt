@@ -1,0 +1,6 @@
+Django==3.2.19
+django-simple-captcha
+celery
+redis
+requests
+libtorrent 

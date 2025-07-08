@@ -19,8 +19,9 @@ template_path = BASE_DIR.__str__() + "/magnetlinks/templates/users/"
 template_path_base = BASE_DIR.__str__() + "/magnetlinks/templates/"
 
 #celery
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -87,10 +88,9 @@ LOGIN_URL = 'login'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR.__str__() + 'db.sqlite3',
+        'NAME':  BASE_DIR.__str__() + '/' + 'magnetlinksdb.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
