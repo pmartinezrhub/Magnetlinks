@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}  
-
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 {% block content %}
 
 <div class="table-container">
@@ -19,7 +19,8 @@
     
     <br>
     <p>
-    <table>
+        <center>
+        <table style="padding: 20px; border-width: 5px; border-style: solid; border-color: black;">
         <thead>
             <tr>
                 <th>Category</th>
@@ -62,5 +63,6 @@
             {% endfor %}
         </tbody>
     </table>
+    </center>
 </div>
 {% endblock content %}
