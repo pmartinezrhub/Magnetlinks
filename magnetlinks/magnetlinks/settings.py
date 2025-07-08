@@ -141,7 +141,7 @@ CELERY_TIMEZONE = 'UTC'  # o 'Europe/Madrid', etc.
 CELERY_BEAT_SCHEDULE = {
     'task-each-hour': {
         'task': 'magnetlinks.tasks.update_magnetlinks',
-        'schedule': timedelta(hours=1),
+        'schedule': crontab(minute=0), 
         # 'args': (),  # si necesitas pasar argumentos
     },
 }
