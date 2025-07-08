@@ -17,6 +17,7 @@ Database is SQLite at the moment.
 How to deploy:
 
 <pre>
+git clone https://github.com/pmartinezrhub/Magnetlinks
 cd magnetlinks
 source bin activate
 python manage runserver
