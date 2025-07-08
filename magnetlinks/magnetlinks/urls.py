@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from django.views.generic import RedirectView
 
 urlpatterns = [
     
@@ -26,6 +27,7 @@ urlpatterns = [
     path('register/', views.sign_up, name='register'),
     path('newmagnetlink/', views.new_magnetlink, name='newmagnetlink'),
     path('magnetlink/<int:id>/', views.magnetlink_detail, name='magnetlink_detail'),
-    path('captcha/', include('captcha.urls'))
+    path('captcha/', include('captcha.urls')),
+    path('', RedirectView.as_view(url='/home/', permanent=False))  # <-- Redirección
 ]
     
