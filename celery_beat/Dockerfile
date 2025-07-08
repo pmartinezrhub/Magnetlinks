@@ -6,4 +6,4 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["celery", "-A", "magnetlinks", "beat", "--loglevel=info", "--schedule=/var/lib/celery/celerybeat-schedule.db" ]
+CMD ["celery", "-A", "magnetlinks", "beat", "--loglevel=info", "--schedule=/var/lib/celery/celerybeat-schedule.db"]

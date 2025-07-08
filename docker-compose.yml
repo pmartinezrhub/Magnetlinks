@@ -2,17 +2,14 @@ services:
   web:
     build: ./magnetlinks
     volumes:
-      - ./magnetlinks:/magnetlinks
-      - ./magnetlinks/magnetlinksdb.sqlite3:/magnetlinks/magnetlinksdb.sqlite3 #persistence db
+      - ./magnetlinks:/magnetlinks # persistence volume
+      #- ./magnetlinks/magnetlinksdb.sqlite3:/magnetlinks/magnetlinksdb.sqlite3 #persistence db
     ports:
       # bittorrent ports
       - "6881:6881"
       - "6891:6891"
     expose:
       - "8000"
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
 
   nginx:
     build: ./nginx
@@ -37,27 +34,19 @@ services:
     build: ./celery_worker
     volumes:
       - ./magnetlinks:/magnetlinks
-    #command: celery -A magnetlinks worker --loglevel=info
+    #command: celery -A magnetlinks worker --loglevel=info # moved to Dockerfile
     depends_on:
       - redis
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
       
   celery_beat:
     build: ./celery_beat
-    #command: celery -A magnetlinks beat --loglevel=info --schedule=/var/lib/celery/celerybeat-schedule.db
+    #command: celery -A magnetlinks beat --loglevel=info --schedule=/var/lib/celery/celerybeat-schedule.db # moved to Dockerfile
     volumes:
       - ./magnetlinks:/magnetlinks
       - ./celery_store:/var/lib/celery  # Create a writable directory on host
     depends_on:
       - redis
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-
-
-
+    
 networks:
   default:
     driver: bridge

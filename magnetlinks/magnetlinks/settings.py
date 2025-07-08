@@ -136,9 +136,10 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CELERY_TIMEZONE = 'UTC'  # o 'Europe/Madrid', etc.
 
 CELERY_BEAT_SCHEDULE = {
-    'tarea-cada-2-horas': {
+    'task-each-hour': {
         'task': 'magnetlinks.tasks.update_magnetlinks',
         'schedule': timedelta(hours=1),
         # 'args': (),  # si necesitas pasar argumentos
