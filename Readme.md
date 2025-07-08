@@ -27,7 +27,7 @@ You need a redis server so in the host:
 <pre>
 apt install redis celery
 </pre>
-then you can launch 
+then you can launch this two scripts from your terminal(ss)
 <pre>
 ./celery_worker.sh
 </pre>
@@ -36,7 +36,14 @@ and
 ./celery_beat.sh
 </pre>
 
-Docker compose:
+Docker compose will deploy 5 containers:
+
+magnetlinks_nginx
+magnetlinks_celery_beat
+magnetlinks_celery_worker
+magnetlinks_web
+redis:alpine
+
 <pre>
 docker-compose up --build 
 </pre>
