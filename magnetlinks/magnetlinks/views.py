@@ -23,9 +23,9 @@ def home(request):
         magnetlinks = MagnetLink.objects.all()
 
     if order == 'seeders-asc':
-        magnetlinks = magnetlinks.order_by('seeders', 'leechers')  # Orden ascendente
+        magnetlinks = magnetlinks.order_by('seeders', 'leechers')  
     else:  
-        magnetlinks = magnetlinks.order_by('-seeders', '-leechers')  # Orden descendente
+        magnetlinks = magnetlinks.order_by('-seeders', '-leechers')
 
     for link in magnetlinks:
         link.magnetlink = ensure_magnet_link(link.magnetlink)
@@ -72,8 +72,8 @@ def sign_in(request):
 @login_required
 def sign_out(request):
     logout(request)
-    response = redirect('home')  # Primero creas la respuesta
-    response.delete_cookie('sessionid')  # Ahora sí puedes borrar la cookie
+    response = redirect('home')  
+    response.delete_cookie('sessionid')  
     return response
 
 
@@ -126,16 +126,13 @@ def account(request):
         if form.is_valid():
             user = form.save()
             if user is None:
-                # Usuario borrado -> cerrar sesión
                 logout(request)
-                return redirect('account_deleted')  # Crea esta URL o página de confirmación
+                return redirect('account_deleted')  
             else:
-                # Solo cambio de password
                 update_session_auth_hash(request, user)
-                #return redirect('password_change_done')  # O tu propia página
                 logout(request)
-                response = redirect('password_change_done')  # Primero creas la respuesta
-                response.delete_cookie('sessionid')  # Ahora sí puedes borrar la cookie
+                response = redirect('password_change_done')  
+                response.delete_cookie('sessionid')  
                 return response
     else:
         form = AccountForm(user=request.user)
@@ -151,12 +148,12 @@ def password_change_done_custom(request):
 @login_required
 def magnetlink_delete(request, pk):
     magnetlink = get_object_or_404(MagnetLink, pk=pk)
-    if magnetlink.user != request.user:
-        return HttpResponseForbidden("No tienes permiso para borrar este magnetlink.")
+    if magnetlink.user != request.user and request.user.username != "admin":
+        return HttpResponseForbidden("You dont have permission to do this action.")
 
     if request.method == 'POST':
         magnetlink.delete()
         messages.success(request, 'Magnetlink borrado correctamente.')
-        return redirect('home')  # o la vista que muestre la lista
+        return redirect('home')  
     else:
-        return HttpResponseForbidden("Método no permitido.")
+        return HttpResponseForbidden("Method not allowed.")

@@ -1,4 +1,7 @@
-sign in-out 
+- full managment admin system . delete users, magnets, filter
+- Filter section. Films, Files, Music, etc. may be a new home page, with search filters.
+
+
 
 
 
