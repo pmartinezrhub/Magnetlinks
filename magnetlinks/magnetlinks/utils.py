@@ -37,10 +37,6 @@ def get_seeds_leechers_and_name(magnet_link):
     
     return torrent_name, num_seeders, num_leechers, total_size
 
-
-
-
-
 def ensure_magnet_link(magnet_link):
     hash_match = re.search(r'btih:([A-Fa-f0-9]{40})', magnet_link)
 

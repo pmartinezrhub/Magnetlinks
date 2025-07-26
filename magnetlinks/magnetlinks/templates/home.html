@@ -28,6 +28,7 @@
                 <th class="title-column">Title</th>-->
                 <th>Magnet</th>
                 <th>Filename</th>
+                <th>User</th>
                 <th>Added</th>
                 <th>S</th>
                 <th>L</th>
@@ -50,6 +51,7 @@
                 </td>
                 
                 <td>{{ link.filename }}</td>
+                <td>{{ link.user.username }}</td> <!-- Aquí aparece el usuario -->
                 <td>{{ link.date }}</td>
                 <td>{{ link.seeders }}</td>
                 <td>{{ link.leechers }}</td>

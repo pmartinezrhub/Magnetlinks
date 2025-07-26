@@ -51,5 +51,10 @@ Any use outside of the instructions, recommendations, or stated purposes is the 
 
 The user agrees that they use the content/material/product/service at their own risk.
 
+Default user admin password is "magnetlinks" remember to chage it with
+``` shell
+python manage.py changepassword admin
+```
+
 
 Contact pmartinezr@proton.me

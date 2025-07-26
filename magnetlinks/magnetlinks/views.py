@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404
 import re
 from .tasks import update_magnetlinks
 from .utils import ensure_magnet_link
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     search_query = request.GET.get('search', '')
@@ -76,6 +77,7 @@ def sign_out(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def new_magnetlink(request):
     if request.method == 'GET':
         form = MagnetLinkForm()
@@ -84,7 +86,12 @@ def new_magnetlink(request):
     elif request.method == 'POST':
         form = MagnetLinkForm(request.POST)
         if form.is_valid():
-            form.save()
+            #form.save()
+            #magnet.user = request.user  # Aquí se guarda el usuario actual
+            #magnet.save()
+            magnet = form.save(commit=False)
+            magnet.user = request.user  # Aquí se guarda el usuario actual
+            magnet.save()
             return redirect('../home')
         
         messages.error(request, 'Error on form')

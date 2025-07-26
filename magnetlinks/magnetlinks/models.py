@@ -1,6 +1,7 @@
 # magnetlinks/models.py
 
 from django.db import models
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     category_name = models.CharField(max_length=50, unique=True)
@@ -10,6 +11,7 @@ class Category(models.Model):
 
 
 class MagnetLink(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=65)
     magnetlink = models.CharField(max_length=200, blank=True, null=True)
     filename = models.CharField(max_length=200, blank=True, null=True)
