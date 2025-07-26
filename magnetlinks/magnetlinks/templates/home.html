@@ -52,7 +52,7 @@
             <td>{{ link.leechers }}</td>
             <td><a href="{% url 'magnetlink_detail' link.id %}">Details</a></td>
            
-                {% if link.user == request.user %}
+                {% if link.user == request.user or request.user.username == "admin" %}
                 <td>
                 <form method="POST" action="{% url 'magnetlink_delete' link.id %}" onsubmit="return confirm('¿Seguro que quieres borrar este magnetlink?');">
                     {% csrf_token %}
