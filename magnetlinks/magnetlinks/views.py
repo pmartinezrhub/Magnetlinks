@@ -2,14 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import update_session_auth_hash, logout
 from requests import post
-from .forms import LoginForm, RegisterForm, MagnetLinkForm
+from .forms import LoginForm, RegisterForm, MagnetLinkForm, AccountForm
 from .models import MagnetLink
 from django.shortcuts import render, get_object_or_404
 import re
 from .tasks import update_magnetlinks
 from .utils import ensure_magnet_link
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
 def home(request):
     search_query = request.GET.get('search', '')
@@ -29,8 +31,6 @@ def home(request):
         link.magnetlink = ensure_magnet_link(link.magnetlink)
     
     return render(request, 'home.html', {'magnetlinks': magnetlinks, 'order': order})
-
-
 
 def sign_up(request):
     if request.method == 'GET':
@@ -69,10 +69,13 @@ def sign_in(request):
         messages.error(request,f'Invalid username or password')
         return render(request,'users/login.html',{'form': form})
 
+@login_required
 def sign_out(request):
     logout(request)
-    messages.success(request,f'You have been logged out.')
-    return redirect('home') 
+    response = redirect('home')  # Primero creas la respuesta
+    response.delete_cookie('sessionid')  # Ahora sí puedes borrar la cookie
+    return response
+
 
 def about(request):
     return render(request, 'about.html')
@@ -86,11 +89,8 @@ def new_magnetlink(request):
     elif request.method == 'POST':
         form = MagnetLinkForm(request.POST)
         if form.is_valid():
-            #form.save()
-            #magnet.user = request.user  # Aquí se guarda el usuario actual
-            #magnet.save()
             magnet = form.save(commit=False)
-            magnet.user = request.user  # Aquí se guarda el usuario actual
+            magnet.user = request.user  
             magnet.save()
             return redirect('../home')
         
@@ -118,4 +118,45 @@ def magnetlink_detail(request, id):
         'hashfile': hash_value,  
         'magnetlink': magnetlink,  
     })
-    
+
+@login_required
+def account(request):
+    if request.method == 'POST':
+        form = AccountForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user is None:
+                # Usuario borrado -> cerrar sesión
+                logout(request)
+                return redirect('account_deleted')  # Crea esta URL o página de confirmación
+            else:
+                # Solo cambio de password
+                update_session_auth_hash(request, user)
+                #return redirect('password_change_done')  # O tu propia página
+                logout(request)
+                response = redirect('password_change_done')  # Primero creas la respuesta
+                response.delete_cookie('sessionid')  # Ahora sí puedes borrar la cookie
+                return response
+    else:
+        form = AccountForm(user=request.user)
+
+    return render(request, 'users/account.html', {'form': form})
+
+def account_deleted(request):
+    return render(request, 'users/account_deleted.html')
+
+def password_change_done_custom(request):
+    return render(request, 'users/password_change_done.html')
+
+@login_required
+def magnetlink_delete(request, pk):
+    magnetlink = get_object_or_404(MagnetLink, pk=pk)
+    if magnetlink.user != request.user:
+        return HttpResponseForbidden("No tienes permiso para borrar este magnetlink.")
+
+    if request.method == 'POST':
+        magnetlink.delete()
+        messages.success(request, 'Magnetlink borrado correctamente.')
+        return redirect('home')  # o la vista que muestre la lista
+    else:
+        return HttpResponseForbidden("Método no permitido.")

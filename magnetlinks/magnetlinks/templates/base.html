@@ -11,9 +11,12 @@
   <body>
   	<header>
   		{%if request.user.is_authenticated %}
-  			<span><strong>{{ request.user.username | title }}</strong></span>
+  			
   			<a href="{% url 'home' %}">Magnet Links</a>
 			<a href="{% url 'newmagnetlink' %}">Add Magnet</a>
+			<a href="{% url 'account' %}">Account</a>
+			<a href="{% url 'logout' %}">Logout</a><p>
+			<span><strong>User: {{ request.user.username | title }}</strong></span>
   		{%else%}
   			<a href="{% url 'login' %}">Login</a>
   			<a href="{% url 'register' %}">Register</a>

@@ -19,15 +19,19 @@ from . import views
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    
+
     path('admin/', admin.site.urls),
     path('home/', views.home, name='home'),
     path('login/', views.sign_in, name='login'),
-    #path('logout/', views.sign_out, name='logout'),
+    path('account/', views.account, name='account'),
+    path('account-deleted/', views.account_deleted, name='account_deleted'),
+    path('password-changed/', views.password_change_done_custom, name='password_change_done'),
+    path('logout/', views.sign_out, name='logout'),
     path('register/', views.sign_up, name='register'),
     path('newmagnetlink/', views.new_magnetlink, name='newmagnetlink'),
     path('magnetlink/<int:id>/', views.magnetlink_detail, name='magnetlink_detail'),
     path('captcha/', include('captcha.urls')),
+     path('magnetlink/delete/<int:pk>/', views.magnetlink_delete, name='magnetlink_delete'),
     path('', RedirectView.as_view(url='/home/', permanent=False))  # <-- Redirección
 ]
     
